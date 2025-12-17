@@ -19,8 +19,8 @@ def calculate_risk(failed_logins, transaction_amount, geo_change_detected, high_
     """
     risk_score = 0
     
-    # Rule 1: Failed Logins
-    risk_score += failed_logins * 10
+    # Rule 1: Failed Logins (More Aggressive)
+    risk_score += failed_logins * 20  # Increased from 10 to 20
     
     # Rule 2: Geo Change
     if geo_change_detected:
@@ -29,6 +29,9 @@ def calculate_risk(failed_logins, transaction_amount, geo_change_detected, high_
     # Rule 3: High Frequency Requests
     if high_freq_requests:
         risk_score += 5
+        # Extra penalty if failures are coupled with high frequency
+        if failed_logins > 5:
+            risk_score += 50
         
     # Rule 4: Transaction Amount Risk
     if transaction_amount > 0:
@@ -46,9 +49,9 @@ def calculate_risk(failed_logins, transaction_amount, geo_change_detected, high_
         "risk_score": risk_score,
         "risk_level": risk_level,
         "details": {
-            "failed_logins_penalty": failed_logins * 10,
+            "failed_logins_penalty": failed_logins * 20,
             "geo_change_penalty": 20 if geo_change_detected else 0,
-            "high_freq_penalty": 5 if high_freq_requests else 0,
+            "high_freq_penalty": (5 + (50 if failed_logins > 5 else 0)) if high_freq_requests else 0,
             "transaction_penalty": int(transaction_amount / 1000)
         }
     }
