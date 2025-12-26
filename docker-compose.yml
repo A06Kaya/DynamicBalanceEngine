@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    container_name: dbe_postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dynamic_balance_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  frontend:
+    image: nginx:alpine
+    container_name: dbe_frontend
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    ports:
+      - "3000:80"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dbe_backend
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=dynamic_balance_db;Username=admin;Password=password
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
