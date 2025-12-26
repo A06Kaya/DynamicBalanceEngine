@@ -1,0 +1,77 @@
+/* Info Modal Styles */
+.modal-content {
+    background: rgba(30, 30, 40, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-list {
+    list-style: none;
+    margin: 15px 0;
+    padding: 0;
+}
+
+.info-list li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot.safe {
+    background: #2ecc71;
+    box-shadow: 0 0 10px #2ecc71;
+}
+
+.dot.warning {
+    background: #f1c40f;
+    box-shadow: 0 0 10px #f1c40f;
+}
+
+.dot.danger {
+    background: #e67e22;
+    box-shadow: 0 0 10px #e67e22;
+}
+
+.dot.critical {
+    background: #e74c3c;
+    box-shadow: 0 0 10px #e74c3c;
+}
+
+.grid-2-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+@media (max-width: 600px) {
+    .grid-2-col {
+        grid-template-columns: 1fr;
+    }
+}
+
+.info-box {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.2s;
+}
+
+.info-box:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.info-box h4 {
+    margin-bottom: 8px;
+    color: #a29bfe;
+}
