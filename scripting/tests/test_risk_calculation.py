@@ -19,16 +19,16 @@ def test_geo_change_risk():
     assert result["risk_level"] == "MEDIUM"
 
 def test_high_freq_risk():
-    # 5 points
+    # 30 points (New Base)
     result = calculate_risk(0, 0, False, True)
-    assert result["risk_score"] == 5
-    assert result["risk_level"] == "LOW"
+    assert result["risk_score"] == 30
+    assert result["risk_level"] == "MEDIUM"
 
 def test_combined_risk():
-    # 1 failed (20) + Geo (20) + High Freq (5) = 45 -> MEDIUM
+    # 1 failed (20) + Geo (20) + High Freq (30) = 70 -> HIGH
     result = calculate_risk(1, 0, True, True)
-    assert result["risk_score"] == 45
-    assert result["risk_level"] == "MEDIUM"
+    assert result["risk_score"] == 70
+    assert result["risk_level"] == "HIGH"
 
 def test_transaction_risk():
     # 2000 amount -> +2 points
@@ -36,7 +36,7 @@ def test_transaction_risk():
     assert result["risk_score"] == 2
     
 def test_aggressive_penalty():
-    # 6 failed (120) + High Freq (5 + 50 extra) = 175 -> HIGH
+    # 6 failed (120) + High Freq (30 + 50 extra) = 200 -> HIGH
     result = calculate_risk(6, 0, False, True)
-    assert result["risk_score"] == 175
+    assert result["risk_score"] == 200
     assert result["risk_level"] == "HIGH"

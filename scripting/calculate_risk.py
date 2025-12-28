@@ -28,7 +28,7 @@ def calculate_risk(failed_logins, transaction_amount, geo_change_detected, high_
         
     # Rule 3: High Frequency Requests
     if high_freq_requests:
-        risk_score += 5
+        risk_score += 30  # Increased from 5 to 30 for faster response
         # Extra penalty if failures are coupled with high frequency
         if failed_logins > 5:
             risk_score += 50
@@ -51,7 +51,7 @@ def calculate_risk(failed_logins, transaction_amount, geo_change_detected, high_
         "details": {
             "failed_logins_penalty": failed_logins * 20,
             "geo_change_penalty": 20 if geo_change_detected else 0,
-            "high_freq_penalty": (5 + (50 if failed_logins > 5 else 0)) if high_freq_requests else 0,
+            "high_freq_penalty": (30 + (50 if failed_logins > 5 else 0)) if high_freq_requests else 0,
             "transaction_penalty": int(transaction_amount / 1000)
         }
     }
